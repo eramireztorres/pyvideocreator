@@ -4,10 +4,17 @@ PyVideoCreator simplifies video production with tools for assembling clips, addi
 
 ## Installation
 
-Install PyVideoCreator using pip:
+Since PyPI is temporarily not accepting new user registrations, you can install PyVideoCreator directly from the source using the following steps:
+1. Clone the GitHub repository:
 ```
-pip install pyvideocreator
+git@github.com:eramireztorres/pyvideocreator.git
+cd pyvideocreator
 ```
+2. Clone the GitHub repository:
+```
+python setup.py install
+```
+This method will install PyVideoCreator and its dependencies on your system.
 
 ## Usage
 
