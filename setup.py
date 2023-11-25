@@ -13,8 +13,11 @@ setup(
     install_requires=[
         'moviepy==1.0.3',
         'openai==1.3.3',
-        'opencv-python==4.8.0',
-        'Pillow==9.4.0'
+        'opencv-python',
+        'Pillow==9.4.0',
+        'joblib',
+        'pydub==0.25.1',
+        'decorator==4.4.2'
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
