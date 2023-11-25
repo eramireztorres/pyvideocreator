@@ -4,6 +4,7 @@ PyVideoCreator simplifies video production with tools for assembling clips, addi
 
 ## Installation
 
+Make sure you use python 3.11 or higher.
 Since PyPI is temporarily not accepting new user registrations, you can install PyVideoCreator directly from the source using the following steps:
 1. Clone the GitHub repository:
 ```

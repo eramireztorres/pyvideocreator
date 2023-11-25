@@ -11,13 +11,13 @@ setup(
     url='https://github.com/eramireztorres/pyvideocreator',
     packages=find_packages(),
     install_requires=[
+        'decorator==4.4.2',
         'moviepy==1.0.3',
         'openai==1.3.3',
         'opencv-python',
         'Pillow==9.4.0',
         'joblib',
-        'pydub==0.25.1',
-        'decorator==4.4.2'
+        'pydub==0.25.1'        
     ],
     classifiers=[
         'Development Status :: 3 - Alpha',
