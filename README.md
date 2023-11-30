@@ -18,6 +18,38 @@ python setup.py install
 
 This method will install PyVideoCreator and its dependencies on your system.
 
+## Additional Dependency: FFmpeg
+
+PyVideoCreator requires FFmpeg for video processing. Please ensure that FFmpeg is installed on your system.
+Windows:
+
+1. Download FFmpeg from FFmpeg's official website.
+2. Extract the downloaded ZIP file.
+3. Add the path to the extracted FFmpeg bin folder (e.g., C:\ffmpeg\bin) to your system's PATH environment variable.
+
+macOS:
+    
+1. Install Homebrew if it's not already installed.
+2. Install FFmpeg using Homebrew:
+
+```
+brew install ffmpeg
+```
+
+Linux:
+
+FFmpeg can be installed from the default repositories on most Linux distributions:
+
+```
+sudo apt-get update
+sudo apt-get install ffmpeg
+```
+(Note: The above commands are for Debian/Ubuntu. Please adjust for other distributions.)
+
+After installing FFmpeg, you can verify the installation by running ffmpeg -version in your command line or terminal.
+
+
+
 ## Usage
 
 Here's a step-by-step guide to using PyVideoCreator:
