@@ -1,5 +1,5 @@
-from video_composer import VideoComposer
-from subtitle_parser import KeyWordStyler, SubtitleStyler
+from pyvideocreator.video_composer import VideoComposer
+from pyvideocreator.subtitle_parser import KeyWordStyler, SubtitleStyler
 
 class VideoSubtitler:
     def __init__(self, video_info, styler, voice_audio=None, bg_music=None, format_type='standard'):

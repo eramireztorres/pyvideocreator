@@ -1,6 +1,6 @@
 from moviepy.editor import VideoFileClip, concatenate_videoclips, AudioFileClip, CompositeAudioClip, ImageClip
-from text_animator import TextAnimator
-from subtitle_parser import *
+from pyvideocreator.text_animator import TextAnimator
+from pyvideocreator.subtitle_parser import *
 import os
 import numpy as np
 

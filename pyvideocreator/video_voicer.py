@@ -2,9 +2,9 @@ import os
 import re
 import subprocess
 from moviepy.editor import VideoFileClip, AudioFileClip, CompositeAudioClip
-from subtitle_parser import SubtitleParser
-from gpt_tts import OpenAITTS
-from edge_tts import EdgeTTS
+from pyvideocreator.subtitle_parser import SubtitleParser
+from pyvideocreator.gpt_tts import OpenAITTS
+from pyvideocreator.edge_tts import EdgeTTS
 from pydub import AudioSegment, silence
 
 

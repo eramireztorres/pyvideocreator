@@ -1,5 +1,5 @@
 import re
-from text_animator import TextAnimator
+from pyvideocreator.text_animator import TextAnimator
 
 import chardet
 
