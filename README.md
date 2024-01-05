@@ -64,7 +64,7 @@ from pyvideocreator.gpt_image import OpenAIImageGenerator
 from pyvideocreator.pxls import PexelsRequester
 
 # For OpenAI images
-openai_api_key = os.getenv("OPENAI_API_KEY")
+openai_api_key = os.getenv("OPENAI_API_KEY") #Write your API key manually if not in the environment
 image_generator = OpenAIImageGenerator(api_key=openai_api_key)
 image_path = some_output_image_path
 image_url = image_generator.generate_image("A  Dendrobatidae frog")
