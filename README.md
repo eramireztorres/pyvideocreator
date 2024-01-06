@@ -48,6 +48,31 @@ sudo apt-get install ffmpeg
 
 After installing FFmpeg, you can verify the installation by running ffmpeg -version in your command line or terminal.
 
+## Additional Requirement for Windows Users: PowerShell
+
+PyVideoCreator requires PowerShell to be installed on Windows systems for certain functionalities. Follow these steps to install and configure PowerShell:
+
+1. **Checking PowerShell Version:**
+   - First, check if you have PowerShell installed and its version. PowerShell 5.1 or higher is recommended for optimal compatibility.
+   - Open a Command Prompt and type `powershell` followed by `$PSVersionTable.PSVersion`. This will display the PowerShell version.
+
+2. **Installing or Updating PowerShell:**
+   - If PowerShell is not installed or you need to update it, download the latest version from the [official PowerShell GitHub repository](https://github.com/PowerShell/PowerShell).
+   - Choose the appropriate installer for your version of Windows (Windows 7/8/10/11).
+
+3. **Installing PowerShell via Windows Features (Optional):**
+   - For Windows 10 and later, PowerShell can also be installed via Windows Features.
+   - Navigate to 'Control Panel' > 'Programs' > 'Turn Windows features on or off'.
+   - Check the box for 'Windows PowerShell' and click 'OK'. Follow the prompts to complete the installation.
+
+4. **Setting Execution Policy (If Required):**
+   - Some PowerShell scripts require setting the execution policy.
+   - Open PowerShell as an administrator and run `Set-ExecutionPolicy RemoteSigned` or a policy level that suits your security needs.
+
+5. **Verifying Installation:**
+   - After installation, verify by opening PowerShell and typing `$PSVersionTable.PSVersion`.
+
+Please ensure that PowerShell is properly installed and configured on your Windows system to utilize all features of PyVideoCreator.
 
 
 ## Usage
