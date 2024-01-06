@@ -18,6 +18,16 @@ python setup.py install
 
 This method will install PyVideoCreator and its dependencies on your system.
 
+## Dependencies
+
+Apart from the Python packages listed in `requirements.txt`, this project also depends on `edge-tts`. 
+
+To install `edge-tts`, run the following command:
+
+```bash
+pip install edge-tts
+```
+
 ## Additional Dependency: FFmpeg
 
 PyVideoCreator requires FFmpeg for video processing. Please ensure that FFmpeg is installed on your system.
