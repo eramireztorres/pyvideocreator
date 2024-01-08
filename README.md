@@ -8,7 +8,7 @@ Make sure you use python 3.11 or higher.
 Since PyPI is temporarily not accepting new user registrations, you can install PyVideoCreator directly from the source using the following steps:
 1. Clone the GitHub repository:
 ```
-git clone git@github.com:eramireztorres/voicegpt-chat.git
+git clone git@github.com:eramireztorres/pyvideocreator.git
 cd pyvideocreator
 ```
 2. Install the package:
