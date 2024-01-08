@@ -9,10 +9,10 @@ Since PyPI is temporarily not accepting new user registrations, you can install 
 1. Clone the GitHub repository:
 ```
 git clone git@github.com:eramireztorres/pyvideocreator.git
-cd pyvideocreator
 ```
 2. Install the package:
 ```
+cd pyvideocreator
 python setup.py install
 ```
 
