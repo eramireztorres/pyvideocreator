@@ -73,14 +73,54 @@ class SubtitleParser:
             raise ValueError(f"Unsupported file extension in {filename}")
 
     def _parse_srt(self):
+        """Parse SubRip (*.srt) subtitle files.
+
+        The previous implementation relied on a single regular expression that was
+        brittle for a couple of reasons:
+
+        * It mistakenly included a trailing quote character in the pattern,
+          preventing it from matching any subtitle blocks.
+        * It expected each block to be terminated by a blank line, so the final
+          subtitle in a file could be skipped if the file didn't end with an
+          extra newline.
+
+        Instead, we now split the file into logical subtitle blocks and extract
+        the time span and text from each block individually.  This mirrors how
+        SRT files are structured and is resilient to missing trailing blank
+        lines.
+        """
+
         with open(self.filename, 'r', encoding='utf-8') as file:
             content = file.read()
 
-        pattern = r'(\d+)\n(\d{2}:\d{2}:\d{2},\d{3}) --> (\d{2}:\d{2}:\d{2},\d{3})\n(.*?)\n\n'
-        matches = re.findall(pattern, content, re.DOTALL)
+        # Split on empty lines that separate SRT entries.  ``strip`` removes any
+        # leading/trailing whitespace so the last entry is processed even if the
+        # file lacks a trailing newline.
+        blocks = re.split(r'\r?\n{2,}', content.strip())
 
-        subtitles = [{'start': start, 'end': end, 'text': text.replace('\n', ' ')}
-                     for _, start, end, text in matches]
+        subtitles = []
+        for block in blocks:
+            lines = [line.strip() for line in block.splitlines() if line.strip()]
+            if len(lines) < 3:
+                continue
+
+            timecodes = lines[1]
+            time_match = re.match(
+                r'(\d{2}:\d{2}:\d{2},\d{3})\s*-->\s*(\d{2}:\d{2}:\d{2},\d{3})',
+                timecodes,
+            )
+            if not time_match:
+                continue
+
+            text = ' '.join(lines[2:])
+            subtitles.append(
+                {
+                    'start': time_match.group(1),
+                    'end': time_match.group(2),
+                    'text': text,
+                }
+            )
+
         return subtitles
 
 

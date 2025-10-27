@@ -1,33 +1,72 @@
 import os
+from pathlib import Path
+from typing import Optional
+
 from openai import OpenAI
 
+
 class OpenAITTS:
-    def __init__(self, api_key=None, model="tts-1", default_voice="alloy", output_format="mp3"):
+    """Generate speech audio using OpenAI's text-to-speech models."""
+
+    def __init__(
+        self,
+        api_key: Optional[str] = None,
+        model: str = "tts-1",
+        default_voice: str = "alloy",
+        output_format: str = "mp3",
+    ) -> None:
         self.client = OpenAI(api_key=api_key if api_key else os.environ.get('OPENAI_API_KEY'))
         self.model = model
         self.default_voice = default_voice
         self.output_format = output_format
 
-    def generate_audio(self, text, voice=None, output_path="output.mp3"):
-        if voice is None:
-            voice = self.default_voice
+    def generate_audio(self, text: str, voice: Optional[str] = None, output_path: str = "output.mp3") -> Path:
+        """Generate speech audio for ``text`` and save it to ``output_path``.
+
+        The OpenAI SDK has evolved quickly, and the previous implementation relied
+        on a ``response.content`` attribute that is no longer provided.  To keep
+        the method working across SDK versions we first try to use the modern
+        streaming helper (``with_streaming_response``).  If that is unavailable we
+        gracefully fall back to the basic ``create`` method and extract raw bytes
+        from the response.
+        """
+
+        resolved_path = Path(output_path)
+        resolved_path.parent.mkdir(parents=True, exist_ok=True)
+
+        selected_voice = voice or self.default_voice
 
         try:
-            # Assuming the method might be similar to the pattern of other API changes
-            response = self.client.audio.speech.create(
+            streaming = self.client.audio.speech.with_streaming_response
+        except AttributeError:
+            streaming = None
+
+        if streaming is not None:
+            with streaming.create(
                 model=self.model,
-                voice=voice,
+                voice=selected_voice,
                 input=text,
-                response_format=self.output_format
-            )
+                response_format=self.output_format,
+            ) as response:
+                response.stream_to_file(resolved_path)
+            return resolved_path
 
-            with open(output_path, "wb") as file:
-                file.write(response.content)
-            print(f"Audio generated and saved to {output_path}")
+        # Fall back to non-streaming request.
+        response = self.client.audio.speech.create(
+            model=self.model,
+            voice=selected_voice,
+            input=text,
+            response_format=self.output_format,
+        )
 
-        except AttributeError as e:
-            print(f"An error occurred: {e}")
-            print("Please check the latest OpenAI SDK documentation for the correct method to generate audio.")
+        audio_bytes = getattr(response, "content", None)
+        if audio_bytes is None:
+            audio_bytes = getattr(response, "audio", None)
+        if isinstance(audio_bytes, bytes):
+            resolved_path.write_bytes(audio_bytes)
+            return resolved_path
+
+        raise RuntimeError("OpenAI audio response does not contain raw audio bytes")
 
 
 # Example Usage
