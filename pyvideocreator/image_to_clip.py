@@ -2,6 +2,12 @@ import cv2
 from PIL import Image
 import numpy as np
 
+
+try:
+    _RESAMPLE = Image.Resampling.LANCZOS  # Pillow >= 10.0
+except AttributeError:  # pragma: no cover - backward compatibility for Pillow < 10
+    _RESAMPLE = Image.ANTIALIAS
+
 class ImageVideoCreator:
     def __init__(self, output_video, width, height, fps):
         self.output_video = output_video
@@ -11,7 +17,7 @@ class ImageVideoCreator:
 
     def _apply_panning(self, img, total_frames, panning_speed):
         new_width = int(self.width * 1.1)
-        img_resized = img.resize((new_width, self.height), Image.ANTIALIAS)
+        img_resized = img.resize((new_width, self.height), resample=_RESAMPLE)
         for i in range(total_frames):
             offset = int(i * (new_width - self.width) / total_frames * panning_speed)
             yield img_resized.crop((offset, 0, offset + self.width, self.height))
@@ -20,7 +26,7 @@ class ImageVideoCreator:
         for i in range(total_frames):
             zoom = 1 + i * (zoom_factor - 1) / total_frames if zoom_in else zoom_factor - i * (zoom_factor - 1) / total_frames
             new_size = (int(self.width * zoom), int(self.height * zoom))
-            img_resized = img.resize(new_size, Image.ANTIALIAS)
+            img_resized = img.resize(new_size, resample=_RESAMPLE)
             offset_x = (img_resized.width - self.width) // 2
             offset_y = (img_resized.height - self.height) // 2
             yield img_resized.crop((offset_x, offset_y, offset_x + self.width, offset_y + self.height))
@@ -49,7 +55,7 @@ class ImageVideoCreator:
             elif anim_type == 'zoom_out':
                 frame_generator = self._apply_zoom(img, frames_for_image, zoom_factor, zoom_in=False)
             else:
-                frame_generator = [img.resize((self.width, self.height), Image.ANTIALIAS)] * frames_for_image
+                frame_generator = [img.resize((self.width, self.height), resample=_RESAMPLE)] * frames_for_image
 
             for i, cropped_img in enumerate(frame_generator):
                 frame = np.array(cropped_img)
